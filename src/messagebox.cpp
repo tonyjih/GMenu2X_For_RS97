@@ -134,8 +134,8 @@ int MessageBox::exec() {
     }
 
 		//usleep(LOOP_DELAY);
+    usleep(LOOP_DELAY);
 	  gmenu2x->s->flip();
-    usleep(50000);
 	}
 
 	return result;

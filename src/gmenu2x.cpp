@@ -1229,7 +1229,6 @@ void GMenu2X::main() {
 
 		inputAction = input.update(0);
     if (inputAction == 0) {
-      usleep(50000);
 			if(input.isActive(POWER)){
 				poweroffTick+= 1;
 			}
@@ -1767,10 +1766,10 @@ void GMenu2X::contextMenu() {
 
 		selbox.y = box.y+4+h*sel;
 		bg.blit(s,0,0);
-
-		if (fadeAlpha<200)
-			fadeAlpha = intTransition(0,200,tickStart,500,tickNow);
-		else
+		fadeAlpha = 350;
+		// if (fadeAlpha<200)
+			// fadeAlpha = intTransition(0,200,tickStart,500,tickNow);
+		// else
 			input.setWakeUpInterval(0);
 		s->box(0, 0, resX, resY, 0,0,0,fadeAlpha);
 		s->box(box.x, box.y, box.w, box.h, skinConfColors[COLOR_MESSAGE_BOX_BG]);

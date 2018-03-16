@@ -163,19 +163,38 @@ void Surface::unlock() {
 		locked = false;
 	}
 }
+inline void plat_quick_copy(SDL_Surface *src, SDL_Surface *dst)
+{
+	int x, y;
+	uint32_t *s = (uint32_t*)src->pixels;
+	uint32_t *d = (uint32_t*)dst->pixels;
 
+	for(y = 0; y < 240; y++){
+		for(x = 0; x < 320 / 2; x++){
+			*(d+160) = *d = *s++;
+			d++;
+		}
+		d+=160;
+	}
+}
 void Surface::flip() {
+#if defined(TARGET_RETROGAME)
+	if (SDL_MUSTLOCK(ScreenSurface))
+		SDL_LockSurface(ScreenSurface);
+	plat_quick_copy(raw,ScreenSurface);
+		//SDL_SoftStretch(raw, NULL, ScreenSurface, NULL);
+	if (SDL_MUSTLOCK(ScreenSurface))
+		SDL_UnlockSurface(ScreenSurface);
+	SDL_Flip(ScreenSurface);
+#else
 	if (dblbuffer!=NULL) {
 		this->blit(dblbuffer,0,0);
 		SDL_Flip(dblbuffer);
 	} else {
-#if defined(TARGET_RETROGAME)
-		SDL_SoftStretch(raw, NULL, ScreenSurface, NULL);
-		SDL_Flip(ScreenSurface);
-#else
-		SDL_Flip(raw);
-#endif
+	
+	SDL_Flip(raw);
 	}
+#endif
 }
 
 bool Surface::blit(SDL_Surface *destination, int x, int y, int w, int h, int a) {
