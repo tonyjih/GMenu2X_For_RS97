@@ -100,7 +100,7 @@ class GMenu2X
 	int getBacklight();
 	void setSuspend(int enter, int show_msg);
 	int backlightLevel;
-	bool skipAskUDC;	//By TonyJih for RS97, æ¯æ¬¡é€€å‡ºéŠæˆ²éƒ½è¦å•å¾ˆç…©
+	bool skipAskUDC;	//By TonyJih for RS97, ¨C¦¸°h¥X¹CÀ¸³£­n°İ«Ü·Ğ
 	string path; //!< Contains the working directory of GMenu2X
 	/*!
 	Retrieves the free disk space on the sd

@@ -1,4 +1,4 @@
-#include "fonthelper.h"
+﻿#include "fonthelper.h"
 #include "utilities.h"
 #include "debug.h"
 
