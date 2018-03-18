@@ -46,19 +46,20 @@ const int VOLUME_MODE_PHONES = 1;
 const int VOLUME_MODE_NORMAL = 2;
 const int BATTERY_READS = 10;
 
-const int LOOP_DELAY=30000;
+const int LOOP_DELAY = 30000;
 
 #if defined(TARGET_GP2X)
-	#define DEFAULT_CPU_CLK 200
+#define DEFAULT_CPU_CLK 200
 #else
-	#define DEFAULT_CPU_CLK 528
+#define DEFAULT_CPU_CLK 528
 #endif
 
 extern const char *CARD_ROOT;
 extern const int CARD_ROOT_LEN;
 
 // Note: Keep this in sync with colorNames!
-enum color {
+enum color
+{
 	COLOR_TOP_BAR_BG,
 	COLOR_BOTTOM_BAR_BG,
 	COLOR_SELECTION_BG,
@@ -71,39 +72,42 @@ enum color {
 	NUM_COLORS,
 };
 
+using fastdelegate::FastDelegate0;
 using std::string;
 using std::vector;
-using fastdelegate::FastDelegate0;
 
 typedef FastDelegate0<> MenuAction;
-typedef unordered_map<string, string, hash<string> > ConfStrHash;
-typedef unordered_map<string, int, hash<string> > ConfIntHash;
+typedef unordered_map<string, string, hash<string>> ConfStrHash;
+typedef unordered_map<string, int, hash<string>> ConfIntHash;
 
-typedef struct {
+typedef struct
+{
 	unsigned short batt;
 	unsigned short remocon;
 } MMSP2ADC;
 
-struct MenuOption {
+struct MenuOption
+{
 	string text;
 	MenuAction action;
 };
 
 class Menu;
 
-class GMenu2X {
-private:
-  int getBacklight();
+class GMenu2X
+{
+  private:
+	int getBacklight();
 	void setSuspend(int enter, int show_msg);
 	int backlightLevel;
-
+	bool skipAskUDC;	//By TonyJih for RS97, 每次退出遊戲都要問很煩
 	string path; //!< Contains the working directory of GMenu2X
 	/*!
 	Retrieves the free disk space on the sd
 	@return String containing a human readable representation of the free disk space
 	*/
 	string getDiskFree();
-	unsigned short cpuX; //!< Offset for displaying cpu clock information
+	unsigned short cpuX;	//!< Offset for displaying cpu clock information
 	unsigned short volumeX; //!< Offset for displaying volume level
 	unsigned short manualX; //!< Offset for displaying the manual indicator in the taskbar
 	/*!
@@ -112,7 +116,7 @@ private:
 	*/
 	unsigned short getBatteryLevel();
 	int batteryHandle;
-	void browsePath(const string &path, vector<string>* directories, vector<string>* files);
+	void browsePath(const string &path, vector<string> *directories, vector<string> *files);
 	/*!
 	Starts the scanning of the nand and sd filesystems, searching for gpe and gpu files and creating the links in 2 dedicated sections.
 	*/
@@ -148,7 +152,7 @@ private:
 
 	unsigned int memdev;
 #ifdef TARGET_RETROGAME
-  volatile unsigned long *memregs;
+	volatile unsigned long *memregs;
 #else
 	volatile unsigned short *memregs;
 #endif
@@ -163,7 +167,7 @@ private:
 	void gp2x_deinit();
 	void toggleTvOut();
 
-public:
+  public:
 	GMenu2X();
 	~GMenu2X();
 	void quit();
@@ -201,7 +205,7 @@ public:
 	// Open2x settings ---------------------------------------------------------
 	bool o2x_usb_net_on_boot, o2x_ftp_on_boot, o2x_telnet_on_boot, o2x_gp2xjoy_on_boot, o2x_usb_host_on_boot, o2x_usb_hid_on_boot, o2x_usb_storage_on_boot;
 	string o2x_usb_net_ip;
-	int volumeMode, savedVolumeMode;		//	just use the const int scale values at top of source
+	int volumeMode, savedVolumeMode; //	just use the const int scale values at top of source
 
 	//  Volume scaling values to store from config files
 	int volumeScalerPhones;
@@ -248,7 +252,7 @@ public:
 	void writeConfig();
 	void writeConfigOpen2x();
 	void writeSkinConfig();
-	void writeTmp(int selelem=-1, const string &selectordir="");
+	void writeTmp(int selelem = -1, const string &selectordir = "");
 
 	void ledOn();
 	void ledOff();
@@ -261,16 +265,16 @@ public:
 	void deleteSection();
 
 	void initBG();
-	int drawButton(Button *btn, int x=5, int y=-10);
-	int drawButton(Surface *s, const string &btn, const string &text, int x=5, int y=-10);
-	int drawButtonRight(Surface *s, const string &btn, const string &text, int x=5, int y=-10);
+	int drawButton(Button *btn, int x = 5, int y = -10);
+	int drawButton(Surface *s, const string &btn, const string &text, int x = 5, int y = -10);
+	int drawButtonRight(Surface *s, const string &btn, const string &text, int x = 5, int y = -10);
 	void drawScrollBar(uint pagesize, uint totalsize, uint pagepos, uint top, uint height);
 
-	void drawTopBar(Surface *s=NULL);
-	void drawBottomBar(Surface *s=NULL);
+	void drawTopBar(Surface *s = NULL);
+	void drawBottomBar(Surface *s = NULL);
 	void redrawBottomBar();
 
-	Menu* menu;
+	Menu *menu;
 };
 
 #endif
